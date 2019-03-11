@@ -1,18 +1,56 @@
-var App = () => (
+import Search from './Search.js';
+
+class App extends React.Component {
   // <MovieList movies={[]} /> self-closing HTML el with props
-  <div>
-    <div className="col-md-5">
-      <div><h4>MovieList</h4></div>
-      <MovieList movies={[
-        {title: 'Mean Girls'},
+  constructor (props) {
+    super(props);
+
+      this.state = {
+        movies: [{title: 'Mean Girls'},
         {title: 'Hackers'},
         {title: 'The Grey'},
         {title: 'Sunshine'},
-        {title: 'Ex Machina'}
-      ]}/>
-    </div>
-  </div>
-);
+        {title: 'Ex Machina'}],
+        currentMovie: null
+      };
+    };
+
+    render() {
+      return (
+        <div>
+
+
+          <nav className="navbar">
+            <div className="row">
+              <div className="col-md-6 offset-md-3">
+                <Search
+                  handleSearchInputChange={this.state.movies[0].title}
+                />
+              </div>
+            </div>
+          </nav>
+
+          <div className="row">
+
+          <div className="col-md-5">
+            <div><h4>MovieList</h4></div>
+            <MovieList movies={[
+            {title: 'Mean Girls'},
+            {title: 'Hackers'},
+            {title: 'The Grey'},
+            {title: 'Sunshine'},
+            {title: 'Ex Machina'}
+            ]}/>
+          </div>
+
+          </div>
+
+
+        </div>
+      );
+    };
+  };
+
 
 var MovieList = (props) => {
   console.log(props);
