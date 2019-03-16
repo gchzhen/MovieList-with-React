@@ -2,20 +2,32 @@ class Search extends React.Component {
   constructor (props) {
     super(props);
     this.handleChangeOfTextInSearchBar = this.handleChangeOfTextInSearchBar.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // handleSubmit coming down from App.jsx as <props.handleSubmit>
+    // this.handleSubmit = props.handleSubmit.bind(this);//when I was passing down the
+    this.handleSubmit = this.handleSubmitInner.bind(this); // I am bounding my inner
+
+    this.state = {
+      searchQuery: ''
+    };
   };
+
   handleChangeOfTextInSearchBar(event) {
-    this.setState({searchQuery: event.target.value});
+    this.setState({searchQuery: event.target.value}, ()=> {
+      console.log('state of Search', this.state.searchQuery)
+    });
   }
-  handleSubmit(event) {
-    alert('A name was submitted: ' + this.state.searchQuery);
+
+  handleSubmitInner(event) {
     event.preventDefault();
+    // invoking the outer handleSubmit
+    this.props.handleSubmit(this.state.searchQuery)
   }
+
   render() {
     return (
     <div>
       <input type="text" onChange={this.handleChangeOfTextInSearchBar}/>
-      <button onClick={this.handleSubmit}>search library</button>
+      <button value={this.state.searchQuery} onClick={this.handleSubmit}>search library</button>
     </div>
     )
   }

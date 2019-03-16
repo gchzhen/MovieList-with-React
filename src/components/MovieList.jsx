@@ -6,7 +6,7 @@ var MovieList = (props) => {
       <div>
       {
         props.movies.map((movie, i) => {
-          return <MovieListEntry key={i.toString()} movie={movie} />
+          return <MovieListEntry key={i.toString()} movie={movie} handleToggle={props.handleToggle}/>
         })
       }
       </div>
