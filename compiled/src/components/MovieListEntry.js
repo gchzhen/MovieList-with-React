@@ -1,0 +1,10 @@
+var MovieListEntry = props => {
+  return React.createElement(
+    "div",
+    null,
+    props.movie.title
+  );
+};
+
+export default MovieListEntry;
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uLy4uL3NyYy9jb21wb25lbnRzL01vdmllTGlzdEVudHJ5LmpzeCJdLCJuYW1lcyI6WyJNb3ZpZUxpc3RFbnRyeSIsInByb3BzIiwibW92aWUiLCJ0aXRsZSJdLCJtYXBwaW5ncyI6IkFBQUEsSUFBSUEsaUJBQWtCQyxLQUFELElBQVc7QUFDOUIsU0FDRTtBQUFBO0FBQUE7QUFBTUEsVUFBTUMsS0FBTixDQUFZQztBQUFsQixHQURGO0FBR0QsQ0FKRDs7QUFNQSxlQUFlSCxjQUFmIiwiZmlsZSI6Ik1vdmllTGlzdEVudHJ5LmpzIiwic291cmNlc0NvbnRlbnQiOlsidmFyIE1vdmllTGlzdEVudHJ5ID0gKHByb3BzKSA9PiB7XG4gIHJldHVybiAoXG4gICAgPGRpdj57cHJvcHMubW92aWUudGl0bGV9PC9kaXY+XG4gICk7XG59XG5cbmV4cG9ydCBkZWZhdWx0IE1vdmllTGlzdEVudHJ5OyJdfQ==
