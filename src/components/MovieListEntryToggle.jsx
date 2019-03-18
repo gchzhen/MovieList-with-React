@@ -1,7 +1,7 @@
 class MovieListEntryToggle extends Component {
     constructor(props) {
         super(props);
-        this.addActiveClass= this.addActiveClass.bind(this);
+        this.toggleClass= this.toggleClass.bind(this);
         this.state = {
             active: false,
         };

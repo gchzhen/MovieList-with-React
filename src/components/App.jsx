@@ -76,37 +76,37 @@ class App extends React.Component {
     }
   };
 
-  // this fn adds query to watchedMovies and deletes it from unwatchedMovies
-  // handleToggleFn(query) {
-  //   function hasMatches(arr, target) {
-  //     let count = 0;
-  //     arr.forEach((movie) => {
-  //       if (movie.title === target) {
-  //         count++;
-  //       }
-  //     })
-  //     return (count === 1) ? true: false;
-  //   }
-  //   let matches = hasMatches(this.state.watchedMovies, query);
-  //   if (!matches) {
-  //     let newWatchedList = this.state.watchedMovies;
-  //     newWatchedList.push({'title': query});
-  //     this.setState({watchedMovies: newWatchedList});
-  //     console.log(`watchedMovies after: ${query}`);
-  //   }
+  // this fn adds query to unwatchedMovies and deletes it from watchedMovies
+  handleAddToUnwatched(query) {
+    function hasMatches(arr, target) {
+      let count = 0;
+      arr.forEach((movie) => {
+        if (movie.title === target) {
+          count++;
+        }
+      })
+      return (count === 1) ? true: false;
+    }
+    let matches = hasMatches(this.state.unwatchedMovies, query);
+    if (!matches) {
+      let newUnwatchedList = this.state.unwatchedMovies;
+      newUnwatchedList.push({'title': query});
+      this.setState({unwatchedMovies: newUnwatchedList});
+    }
 
-  //   let newUnwatchedList = [];
-  //   let unwatchedList = this.state.unwatchedMovies;
-  //   // by default all movies are unwatched
-  //   if (unwatchedList.length > 0) {
-  //     unwatchedList.forEach((movie) => {
-  //       if(movie.title !== query) {
-  //         newUnwatchedList.push(movie);
-  //       }
-  //     })
-  //     this.setState({unwatchedMovies: newUnwatchedList});
-  //   }
-  // };
+    
+    let watchedList = this.state.unwatchedMovies;
+    // by default all movies are unwatched
+    if (watchedList.length > 0) {
+      let newWatchedList = [];
+      watchedList.forEach((movie) => {
+        if(movie.title !== query) {
+          newWatchedList.push(movie);
+        }
+      })
+      this.setState({unwatchedMovies: newWatchedList});
+    }
+  };
 
   handleToggleFilter(event) {
     console.log('made it to handleToggleFilter!');
