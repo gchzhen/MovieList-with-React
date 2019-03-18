@@ -47,68 +47,65 @@ class App extends React.Component {
   // this fn adds query to watchedMovies and deletes it from unwatchedMovies
   handleAddToWatched(e) {
     let val = e.target.value;
-    function hasMatches(arr, target) {
-      let count = 0;
-      arr.forEach((movie) => {
-        if (movie.title === target) {
-          count++;
-        }
-      })
-      return (count === 1) ? true: false;
-    }
-    let matches = hasMatches(this.state.watchedMovies, val);
+    let matches = this.hasMatches(this.state.watchedMovies, val);
+    // if watchedMovies does't include this query
     if (!matches) {
-      let newWatchedList = this.state.watchedMovies;
-      newWatchedList.push({'title': val});
-      this.setState({watchedMovies: newWatchedList});
-    }
+      //add to watched
+      let newWatchedList = this.state.watchedMovies;  // take a copy of the state
+      newWatchedList.push({'title': val});            // modify it
+      this.setState({watchedMovies: newWatchedList}); // update the state
 
-  
-    let unwatchedList = this.state.unwatchedMovies;
-    // by default all movies are unwatched
-    if (unwatchedList.length > 0) {
-      let newUnwatchedList = [];
-      unwatchedList.forEach((movie) => {
-        if(movie.title !== val) {
-          newUnwatchedList.push(movie);
-        }
-      })
-      this.setState({unwatchedMovies: newUnwatchedList});
+      // delete from unwatched
+      let unwatchedList = this.state.unwatchedMovies;
+      if (unwatchedList.length > 0) {
+        let newUnwatchedList = [];
+        unwatchedList.forEach((movie) => {
+          if(movie.title !== val) {
+            newUnwatchedList.push(movie);
+          }
+        })
+        this.setState({unwatchedMovies: newUnwatchedList});
+      }
     }
+    // if watchedMovies already includes this query - do nothing
   };
 
   // this fn adds query to unwatchedMovies and deletes it from watchedMovies
   handleAddToUnwatched(e) {
     let val = e.target.value;
-    function hasMatches(arr, target) {
-      let count = 0;
-      arr.forEach((movie) => {
-        if (movie.title === target) {
-          count++;
-        }
-      })
-      return (count === 1) ? true: false;
-    }
-    let matches = hasMatches(this.state.unwatchedMovies, val);
+    let matches = this.hasMatches(this.state.unwatchedMovies, val);
+    // if unwatchedMovies does't include this query
     if (!matches) {
+      //add to unwatched
       let newUnwatchedList = this.state.unwatchedMovies;
       newUnwatchedList.push({'title': val});
       this.setState({unwatchedMovies: newUnwatchedList});
-    }
 
-    
-    let watchedList = this.state.unwatchedMovies;
-    // by default all movies are unwatched
-    if (watchedList.length > 0) {
-      let newWatchedList = [];
-      watchedList.forEach((movie) => {
-        if(movie.title !== val) {
-          newWatchedList.push(movie);
-        }
-      })
-      this.setState({unwatchedMovies: newWatchedList});
+      // delete from watched
+      let watchedList = this.state.watchedMovies;
+      // by default all movies are unwatched
+      if (watchedList.length > 0) {
+        let newWatchedList = [];
+        watchedList.forEach((movie) => {
+          if(movie.title !== val) {
+            newWatchedList.push(movie);
+          }
+        })
+        this.setState({watchedMovies: newWatchedList});
+      }
     }
   };
+
+  // helper function
+  hasMatches(arr, target) {
+    let count = 0;
+    arr.forEach((movie) => {
+      if (movie.title === target) {
+        count++;
+      }
+    })
+    return (count === 1) ? true: false;
+  }
 
   handleToggleFilter(event) {
     console.log('made it to handleToggleFilter!');
