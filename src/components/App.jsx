@@ -18,7 +18,7 @@ class App extends React.Component {
     this.handleSubmitFilter = this.handleSubmitFilter.bind(this);
     this.handleToggleFilter= this.handleToggleFilter.bind(this);
     this.handleAddToWatched = this.handleAddToWatched.bind(this);
-    // this.handleAddToUnwatched = this.handleAddToUnwatched.bind(this);
+    this.handleAddToUnwatched = this.handleAddToUnwatched.bind(this);
   };
 
   handleSubmitFilter(query) {
@@ -45,7 +45,8 @@ class App extends React.Component {
   };
 
   // this fn adds query to watchedMovies and deletes it from unwatchedMovies
-  handleAddToWatched(query) {
+  handleAddToWatched(e) {
+    let val = e.target.value;
     function hasMatches(arr, target) {
       let count = 0;
       arr.forEach((movie) => {
@@ -55,10 +56,10 @@ class App extends React.Component {
       })
       return (count === 1) ? true: false;
     }
-    let matches = hasMatches(this.state.watchedMovies, query);
+    let matches = hasMatches(this.state.watchedMovies, val);
     if (!matches) {
       let newWatchedList = this.state.watchedMovies;
-      newWatchedList.push({'title': query});
+      newWatchedList.push({'title': val});
       this.setState({watchedMovies: newWatchedList});
     }
 
@@ -68,7 +69,7 @@ class App extends React.Component {
     if (unwatchedList.length > 0) {
       let newUnwatchedList = [];
       unwatchedList.forEach((movie) => {
-        if(movie.title !== query) {
+        if(movie.title !== val) {
           newUnwatchedList.push(movie);
         }
       })
@@ -77,7 +78,8 @@ class App extends React.Component {
   };
 
   // this fn adds query to unwatchedMovies and deletes it from watchedMovies
-  handleAddToUnwatched(query) {
+  handleAddToUnwatched(e) {
+    let val = e.target.value;
     function hasMatches(arr, target) {
       let count = 0;
       arr.forEach((movie) => {
@@ -87,10 +89,10 @@ class App extends React.Component {
       })
       return (count === 1) ? true: false;
     }
-    let matches = hasMatches(this.state.unwatchedMovies, query);
+    let matches = hasMatches(this.state.unwatchedMovies, val);
     if (!matches) {
       let newUnwatchedList = this.state.unwatchedMovies;
-      newUnwatchedList.push({'title': query});
+      newUnwatchedList.push({'title': val});
       this.setState({unwatchedMovies: newUnwatchedList});
     }
 
@@ -100,7 +102,7 @@ class App extends React.Component {
     if (watchedList.length > 0) {
       let newWatchedList = [];
       watchedList.forEach((movie) => {
-        if(movie.title !== query) {
+        if(movie.title !== val) {
           newWatchedList.push(movie);
         }
       })
