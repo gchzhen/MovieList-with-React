@@ -8,67 +8,140 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      //movies: exampleMovies
-      movies: [],
-      isWatched: false
+      // movies: [],
+      movies: exampleMovies,
+      displayedMovies: exampleMovies,
+      unwatchedMovies: exampleMovies,
+      watchedMovies: [],
     };
-    this.handleSubmitFilter = this.handleSubmitFilter.bind(this);
     this.handleSubmitAdd = this.handleSubmitAdd.bind(this);
-    this.handleToggleFn = this.handleToggleFn.bind(this);
+    this.handleSubmitFilter = this.handleSubmitFilter.bind(this);
+    this.handleToggleFilter= this.handleToggleFilter.bind(this);
+    this.handleAddToWatched = this.handleAddToWatched.bind(this);
+    // this.handleAddToUnwatched = this.handleAddToUnwatched.bind(this);
   };
 
   handleSubmitFilter(query) {
-    /*everything what is commented below - was when I passed down handleSubmit from App and onClick down the
-    tree in the Search invoked this App's handleSubmitFilter function. ?????????????????/   And now I just pass the query*/
-    // handleSubmitFilter(event) {
-    // console.log('event: ', event);
-    console.log('query: ', query);
-    console.log('what is state?', this.state); // why am I consoling out the state here? AAAAAAAAAAAAAA
-
-    var mymovies = this.state.movies;
-    var newlist = [];
-    for (var i=0; i<mymovies.length; i++){
-      // if (mymovies[i].title.toLowerCase().includes(event.target.value.toLowerCase()) === true){
-      if (mymovies[i].title.toLowerCase().includes(query.toLowerCase()) === true){
-        newlist.push({"title": mymovies[i].title});
+    var myMovies = this.state.movies;
+    let newList = [];
+    for (var i=0; i<myMovies.length; i++){
+      if (myMovies[i].title.toLowerCase().includes(query.toLowerCase()) === true){
+        newList.push({"title": myMovies[i].title});
       }
     }
-
-    if(newlist.length === 0){
+    if(newList.length === 0){
       alert("No movie by that name found");
     }
-    else{
-      this.setState({movies:newlist});
-    } // after filtering moviesArr will only have mathcing with query movies inside
-  }
+    else {
+      this.setState({displayedMovies: newList}); // to display filtered list
+    }
+  };
 
-  // handleSubmitAdd(event) {
-  handleSubmitAdd(event) {
-    var newlist = this.state.movies;
-    newlist.push({"title": event.target.value});
-    this.setState({movies:newlist});
-  }
+  //here I pass the whole event of the click on that button with value inside the target property
+  handleSubmitAdd(e) {
+    let newList = this.state.movies;
+    newList.push({'title': e.target.value});
+    this.setState({movies: newList});
+  };
 
-  handleToggleFn(event) {
-    console.log('toggle working!');
-    var beforeToggle = this.state.isWatched;
-    console.log(beforeToggle);
-    this.setState({isWatched: !beforeToggle});
-    console.log('what is state?', this.state);
-  }
+  // this fn adds query to watchedMovies and deletes it from unwatchedMovies
+  handleAddToWatched(query) {
+    function hasMatches(arr, target) {
+      let count = 0;
+      arr.forEach((movie) => {
+        if (movie.title === target) {
+          count++;
+        }
+      })
+      return (count === 1) ? true: false;
+    }
+    let matches = hasMatches(this.state.watchedMovies, query);
+    if (!matches) {
+      let newWatchedList = this.state.watchedMovies;
+      newWatchedList.push({'title': query});
+      this.setState({watchedMovies: newWatchedList});
+    }
+
+  
+    let unwatchedList = this.state.unwatchedMovies;
+    // by default all movies are unwatched
+    if (unwatchedList.length > 0) {
+      let newUnwatchedList = [];
+      unwatchedList.forEach((movie) => {
+        if(movie.title !== query) {
+          newUnwatchedList.push(movie);
+        }
+      })
+      this.setState({unwatchedMovies: newUnwatchedList});
+    }
+  };
+
+  // this fn adds query to watchedMovies and deletes it from unwatchedMovies
+  // handleToggleFn(query) {
+  //   function hasMatches(arr, target) {
+  //     let count = 0;
+  //     arr.forEach((movie) => {
+  //       if (movie.title === target) {
+  //         count++;
+  //       }
+  //     })
+  //     return (count === 1) ? true: false;
+  //   }
+  //   let matches = hasMatches(this.state.watchedMovies, query);
+  //   if (!matches) {
+  //     let newWatchedList = this.state.watchedMovies;
+  //     newWatchedList.push({'title': query});
+  //     this.setState({watchedMovies: newWatchedList});
+  //     console.log(`watchedMovies after: ${query}`);
+  //   }
+
+  //   let newUnwatchedList = [];
+  //   let unwatchedList = this.state.unwatchedMovies;
+  //   // by default all movies are unwatched
+  //   if (unwatchedList.length > 0) {
+  //     unwatchedList.forEach((movie) => {
+  //       if(movie.title !== query) {
+  //         newUnwatchedList.push(movie);
+  //       }
+  //     })
+  //     this.setState({unwatchedMovies: newUnwatchedList});
+  //   }
+  // };
+
+  handleToggleFilter(event) {
+    console.log('made it to handleToggleFilter!');
+    console.log('arrOfMovies: ', event.target.value);
+    console.log(typeof event.target.value);
+    if (event.target.value === 'watched') {
+    // this.setState({displayedMovies: event.target.value})
+      this.setState({displayedMovies: this.state.watchedMovies})
+      
+    } else {
+      console.log(this.state.unwatchedMovies);
+      this.setState({displayedMovies: this.state.unwatchedMovies})
+    }
+  };
+
 
   render() {
     return (
       <div>
+        <div>search for movie
+          <Search handleSubmit={this.handleSubmitFilter}/>
+        </div>
         <div>
           <AddMovie handleSubmit={this.handleSubmitAdd}/>
         </div>
         <div>
-          <Search handleSubmit={this.handleSubmitFilter}/>
-          <MovieList movies={this.state.movies} handleToggle={this.handleToggleFn}/>
+          <button value={'watched'} onClick={this.handleToggleFilter}>watched</button>
+          <button value={'unwatched'} onClick={this.handleToggleFilter}>to watch</button>
+        </div>
+        <div>
+          <MovieList displayedMovies={this.state.displayedMovies} handleAddToWatched={this.handleAddToWatched} handleAddToUnwatched={this.handleAddToUnwatched}/>
         </div>
       </div>
     );
   };
 };
+
 export default App;
